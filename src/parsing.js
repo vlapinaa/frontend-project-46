@@ -1,13 +1,17 @@
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import yaml from 'js-yaml';
 
 export const parseFile = (filepath) => {
-  if (!filepath.endsWith('.json')) {
-    throw new Error('Wrong format');
-  }
-  const absolutePath1 = path.resolve(process.cwd(), filepath);
+  const absolutePath1 = path.resolve(process.cwd(), '__fixtures__', filepath);
   const file = readFileSync(absolutePath1, { encoding: 'utf8' });
-  const objFile = JSON.parse(file);
+  let objFile;
+  if (path.extname(filepath) === '.yaml' || path.extname(filepath) === '.yml') {
+    objFile = yaml.load(file);
+  } else if (path.extname(filepath) === '.json') {
+    objFile = JSON.parse(file);
+  }
 
   return objFile;
 };
