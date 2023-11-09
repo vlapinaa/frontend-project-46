@@ -2,8 +2,12 @@ env:
   browser: true
   es2021: true
   node: true
+  jest: true
 extends: airbnb-base
 parserOptions:
-  ecmaVersion: latest
+  ecmaVersion: 2020
   sourceType: module
-rules: {}
+rules:
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
+  no-console: 0
+  "import/extensions": [0, "never"]
