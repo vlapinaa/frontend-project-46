@@ -16,38 +16,40 @@ export const parseFile = (filepath) => {
   return objFile;
 };
 
-export const compareFiles = (file1, file2) => {
-  const keysFile1 = Object.keys(file1);
-  const sortedKeys = keysFile1.sort();
-
-  const keysFile2 = Object.keys(file2);
-  const sortedKeys2 = keysFile2.sort();
+export const compareObjects = (object1, object2) => {
+  const keys1 = Object.keys(object1).sort();
+  const keys2 = Object.keys(object2).sort();
   const comparing = {};
 
-  sortedKeys.forEach((key) => {
-    if (Object.prototype.hasOwnProperty.call(file2, key)) {
-      if (file1[key] === file2[key]) {
-        comparing[key] = file1[key];
-        sortedKeys2.splice(sortedKeys2.indexOf(key), 1);
+  keys1.forEach((key) => {
+    if (
+      typeof object1[key] === 'object'
+      && typeof object2[key] === 'object'
+      && object1[key] !== null
+      && object2[key] !== null
+    ) {
+      comparing[key] = compareObjects(object1[key], object2[key]);
+      keys2.splice(keys2.indexOf(key), 1);
+      return;
+    }
+
+    if (Object.prototype.hasOwnProperty.call(object2, key)) {
+      if (object1[key] === object2[key]) {
+        comparing[key] = object1[key];
+        keys2.splice(keys2.indexOf(key), 1);
       } else {
-        const key1 = `- ${key}`;
-        const key2 = `+ ${key}`;
-        comparing[key1] = file1[key];
-        comparing[key2] = file2[key];
-        sortedKeys2.splice(sortedKeys2.indexOf(key), 1);
+        comparing[`- ${key}`] = object1[key];
+        comparing[`+ ${key}`] = object2[key];
+        keys2.splice(keys2.indexOf(key), 1);
       }
     } else {
-      const key1 = `- ${key}`;
-      comparing[key1] = file1[key];
+      comparing[`- ${key}`] = object1[key];
     }
   });
-  sortedKeys2.forEach((key) => {
-    const key2 = `+ ${key}`;
-    comparing[key2] = file2[key];
+
+  keys2.forEach((key) => {
+    comparing[`+ ${key}`] = object2[key];
   });
 
-  const arrayComparing = Object.entries(comparing).map((arr) => arr.join(': '));
-
-  const resultString = ['{', ...arrayComparing, '}'].join('\n');
-  return resultString;
+  return comparing;
 };
