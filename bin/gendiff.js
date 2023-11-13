@@ -3,7 +3,7 @@
 
 import { program } from 'commander';
 import { parseFile, compareObjects } from '../src/parsing.js';
-import stylish from '../src/stylish.js';
+import stylish from '../formatters/stylish.js';
 
 program.version('0.0.1', '-V, --version', 'output the version number');
 program.argument('<filepath1>');

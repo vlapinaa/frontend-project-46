@@ -6,7 +6,7 @@ import { dirname } from 'path';
 import yaml from 'js-yaml';
 import { compareObjects } from '../src/parsing.js';
 import result from '../__fixtures__/compareFiles.expect.js';
-import stylish from '../src/stylish.js';
+import stylish from '../formatters/stylish.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
