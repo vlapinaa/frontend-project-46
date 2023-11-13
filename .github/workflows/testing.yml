@@ -5,10 +5,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-        - name: Test & publish code coverage
-          uses: paambaati/codeclimate-action@v5.0.0
-          env:
-            CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-          with:
-            coverageCommand: npm run coverage
-            debug: true
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: npm run coverage
+          debug: true
