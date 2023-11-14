@@ -12,10 +12,12 @@
         "plugin:prettier/recommended"
     ],
     "parserOptions": {
-        "ecmaVersion": "latest",
+        "ecmaVersion": 2020,
         "sourceType": "module"
     },
     "rules": {
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "import/extensions": "off",
+        "no-underscore-dangle": [2, { "allow": ["__filename", "__dirname"] }]
     }
 }
