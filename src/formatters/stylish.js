@@ -22,13 +22,14 @@ const stylish = (obj, startLevel = 1) => {
       value = obj[key];
     }
 
-    const styledValue = isObject(value)
-      ? `{\n${stylish(value, level + 1)}${indent}}`
-      : value;
+    let styledValue;
 
     const indentForKey = val.type !== "unchanged" ? indentDif : indent;
 
     if (val.option !== undefined && val.type !== "changed") {
+      styledValue = isObject(value)
+        ? `{\n${stylish(value, level + 1.5)}${indent}}`
+        : value;
       result += `${indentForKey}${val.option} ${key}: ${styledValue}\n`;
     } else if (val.type === "changed") {
       result += `${indentForKey}- ${key}: ${
@@ -38,6 +39,9 @@ const stylish = (obj, startLevel = 1) => {
         isObject(value2) ? stringifyObject(value2, level) : value2
       }\n`;
     } else {
+      styledValue = isObject(value)
+        ? `{\n${stylish(value, level + 1)}${indent}}`
+        : value;
       result += `${indentForKey}${key}: ${styledValue}\n`;
     }
     return result;
