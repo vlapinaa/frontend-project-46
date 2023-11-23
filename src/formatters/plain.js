@@ -34,7 +34,11 @@ const plain = (obj) => {
         return;
     }
 
-    result += `Property '${path}' was ${action}\n`;
+    if (keys.indexOf(path) === keys.length - 2) {
+      result += `Property '${path}' was ${action}`;
+    } else {
+      result += `Property '${path}' was ${action}\n`;
+    }
   });
   return result;
 };
