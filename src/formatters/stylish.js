@@ -1,4 +1,4 @@
-import { isObject } from "../helpers.js";
+import { isObject, stringifyObject } from "../helpers.js";
 
 const stylish = (obj, startLevel = 1) => {
   const space = " ";
@@ -31,8 +31,12 @@ const stylish = (obj, startLevel = 1) => {
     if (val.option !== undefined && val.type !== "changed") {
       result += `${indentForKey}${val.option} ${key}: ${styledValue}\n`;
     } else if (val.type === "changed") {
-      result += `${indentForKey}- ${key}: ${value1}\n`;
-      result += `${indentForKey}+ ${key}: ${value2}\n`;
+      result += `${indentForKey}- ${key}: ${
+        isObject(value1) ? stringifyObject(value1, level) : value1
+      }\n`;
+      result += `${indentForKey}+ ${key}: ${
+        isObject(value2) ? stringifyObject(value2, level) : value2
+      }\n`;
     } else {
       result += `${indentForKey}${key}: ${styledValue}\n`;
     }
