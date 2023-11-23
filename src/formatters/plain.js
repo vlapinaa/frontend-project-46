@@ -1,31 +1,31 @@
-import { isObject, createFlatObject } from "../helpers.js";
+import { isObject, createFlatObject } from '../helpers.js';
 
 const plain = (obj) => {
   const flatObject = createFlatObject(obj, {});
   const keys = Object.keys(flatObject);
-  let result = "";
+  let result = '';
 
   keys.forEach((path) => {
-    let action = "";
+    let action = '';
     const parameters = flatObject[path];
 
     const defineValue = (type) => {
-      const typeValue = typeof type === "string" ? `'${type}'` : type;
+      const typeValue = typeof type === 'string' ? `'${type}'` : type;
       let resultValue = typeValue;
       if (isObject(type)) {
-        resultValue = "[complex value]";
+        resultValue = '[complex value]';
       }
       return resultValue;
     };
 
     switch (parameters.type) {
-      case "deleted":
-        action = "removed";
+      case 'deleted':
+        action = 'removed';
         break;
-      case "added":
+      case 'added':
         action = `added with value: ${defineValue(parameters.object)}`;
         break;
-      case "changed":
+      case 'changed':
         action = `updated. From ${defineValue(
           parameters.objectFrom
         )} to ${defineValue(parameters.objectTo)}`;

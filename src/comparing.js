@@ -1,4 +1,4 @@
-import { isObject } from "./helpers.js";
+import { isObject } from './helpers.js';
 
 const compareObjects = (object1, object2) => {
   const keys = [...Object.keys(object1), ...Object.keys(object2)];
@@ -16,26 +16,26 @@ const compareObjects = (object1, object2) => {
     if (isObject(object1[key]) && isObject(object2[key])) {
       comparing[key] = {
         object: compareObjects(object1[key], object2[key]),
-        type: "unchanged",
+        type: 'unchanged',
       };
       return;
     }
 
     if (hasKeyInObject2 && hasKeyInObject1) {
       if (object1[key] === object2[key]) {
-        comparing[key] = { object: object1[key], type: "unchanged" };
+        comparing[key] = { object: object1[key], type: 'unchanged' };
       } else {
         comparing[key] = {
           objectFrom: object1[key],
           objectTo: object2[key],
-          type: "changed",
-          option: "+-",
+          type: 'changed',
+          option: '+-',
         };
       }
     } else if (hasKeyInObject1) {
-      comparing[key] = { object: object1[key], type: "deleted", option: "-" };
+      comparing[key] = { object: object1[key], type: 'deleted', option: '-' };
     } else if (hasKeyInObject2) {
-      comparing[key] = { object: object2[key], type: "added", option: "+" };
+      comparing[key] = { object: object2[key], type: 'added', option: '+' };
     }
   });
 

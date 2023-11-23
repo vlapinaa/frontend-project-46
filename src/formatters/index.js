@@ -1,17 +1,17 @@
-import stylish from "./stylish.js";
-import plain from "./plain.js";
-import formatToJson from "./json.js";
+import stylish from './stylish.js';
+import plain from './plain.js';
+import formatToJson from './json.js';
 
 const selectFormatter = (type) => {
   switch (type) {
-    case "stylish":
+    case 'stylish':
       return stylish;
-    case "plain":
+    case 'plain':
       return plain;
-    case "json":
+    case 'json':
       return formatToJson;
     default:
-      throw new Error("Wrong format");
+      throw new Error('Wrong format');
   }
 };
 

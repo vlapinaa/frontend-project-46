@@ -1,8 +1,8 @@
-import { isObject, stringifyObject } from "../helpers.js";
+import { isObject, stringifyObject } from '../helpers.js';
 
 const stylish = (obj, startLevel = 1) => {
-  const space = " ";
-  let result = "";
+  const space = ' ';
+  let result = '';
   const level = startLevel;
   const indent = space.repeat(level * 4);
   const indentDif = space.repeat(level * 4 - 2);
@@ -13,9 +13,9 @@ const stylish = (obj, startLevel = 1) => {
     let value1;
     let value2;
 
-    if (val.type !== "changed" && val.object !== undefined) {
+    if (val.type !== 'changed' && val.object !== undefined) {
       value = val.object;
-    } else if (val.type === "changed") {
+    } else if (val.type === 'changed') {
       value1 = val.objectFrom;
       value2 = val.objectTo;
     } else {
@@ -35,11 +35,11 @@ const stylish = (obj, startLevel = 1) => {
       styledValue = value;
     }
 
-    const indentForKey = val.type !== "unchanged" ? indentDif : indent;
+    const indentForKey = val.type !== 'unchanged' ? indentDif : indent;
 
-    if (val.option !== undefined && val.type !== "changed") {
+    if (val.option !== undefined && val.type !== 'changed') {
       result += `${indentForKey}${val.option} ${key}: ${styledValue}\n`;
-    } else if (val.type === "changed") {
+    } else if (val.type === 'changed') {
       result += `${indentForKey}- ${key}: ${
         isObject(value1) ? stringifyObject(value1, level) : value1
       }\n`;

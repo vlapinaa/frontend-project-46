@@ -1,5 +1,5 @@
 export const isObject = (value) => {
-  if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
     return true;
   }
   return false;
@@ -20,7 +20,7 @@ export const createFlatObject = (obj, flat, flatKey) => {
       }
 
       const value = obj[key];
-      if (isObject(value.object) && value.type === "unchanged") {
+      if (isObject(value.object) && value.type === 'unchanged') {
         createFlatObject(value.object, newObject, newKey);
       } else {
         newObject[newKey] = value;
@@ -33,10 +33,10 @@ export const createFlatObject = (obj, flat, flatKey) => {
 export const stringifyObject = (object, level) => {
   const keys = Object.keys(object);
   let value;
-  const space = " ";
+  const space = ' ';
   const indent = space.repeat(level * 4);
-  const indentAdd = space.repeat(4)
-  let result = "";
+  const indentAdd = space.repeat(4);
+  let result = '';
 
   if (keys.length > 1) {
     keys.forEach((key) => {
