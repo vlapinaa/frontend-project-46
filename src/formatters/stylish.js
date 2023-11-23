@@ -26,8 +26,10 @@ const stylish = (obj, startLevel = 1) => {
     if (isObject(value)) {
       if (val.option !== undefined) {
         styledValue = `{\n${stylish(value, level + 1.5)}${indent}}`;
-      } else {
+      } else if (Number.isInteger(level)) {
         styledValue = `{\n${stylish(value, level + 1)}${indent}}`;
+      } else {
+        styledValue = `{\n${stylish(value, level + 1)}${indentDif}}`;
       }
     } else {
       styledValue = value;
