@@ -21,15 +21,21 @@ const stylish = (obj, startLevel = 1) => {
     } else {
       value = obj[key];
     }
-
     let styledValue;
+
+    if (isObject(value)) {
+      if (val.option !== undefined) {
+        styledValue = `{\n${stylish(value, level + 1.5)}${indent}}`;
+      } else {
+        styledValue = `{\n${stylish(value, level + 1)}${indent}}`;
+      }
+    } else {
+      styledValue = value;
+    }
 
     const indentForKey = val.type !== "unchanged" ? indentDif : indent;
 
     if (val.option !== undefined && val.type !== "changed") {
-      styledValue = isObject(value)
-        ? `{\n${stylish(value, level + 1.5)}${indent}}`
-        : value;
       result += `${indentForKey}${val.option} ${key}: ${styledValue}\n`;
     } else if (val.type === "changed") {
       result += `${indentForKey}- ${key}: ${
@@ -39,9 +45,6 @@ const stylish = (obj, startLevel = 1) => {
         isObject(value2) ? stringifyObject(value2, level) : value2
       }\n`;
     } else {
-      styledValue = isObject(value)
-        ? `{\n${stylish(value, level + 1)}${indent}}`
-        : value;
       result += `${indentForKey}${key}: ${styledValue}\n`;
     }
     return result;

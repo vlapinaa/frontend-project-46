@@ -1,13 +1,17 @@
 import { isObject } from "./helpers.js";
 
 const compareObjects = (object1, object2) => {
-  const keys = Object.keys(object1).concat(Object.keys(object2));
-  const keysSort = keys.sort();
+  const keys = [...Object.keys(object1), ...Object.keys(object2)];
+  const keysSorted = keys.sort();
   const comparing = {};
 
-  keysSort.forEach((key) => {
-    const existenceInObj1 = Object.prototype.hasOwnProperty.call(object1, key);
-    const existenceInObj2 = Object.prototype.hasOwnProperty.call(object2, key);
+  keysSorted.forEach((key) => {
+    const hasKeyInObject1 = Object.prototype.hasOwnProperty.call(object1, key);
+    const hasKeyInObject2 = Object.prototype.hasOwnProperty.call(object2, key);
+
+    if (Object.prototype.hasOwnProperty.call(comparing, key)) {
+      return;
+    }
 
     if (isObject(object1[key]) && isObject(object2[key])) {
       comparing[key] = {
@@ -17,7 +21,7 @@ const compareObjects = (object1, object2) => {
       return;
     }
 
-    if (existenceInObj2 && existenceInObj1) {
+    if (hasKeyInObject2 && hasKeyInObject1) {
       if (object1[key] === object2[key]) {
         comparing[key] = { object: object1[key], type: "unchanged" };
       } else {
@@ -28,9 +32,9 @@ const compareObjects = (object1, object2) => {
           option: "+-",
         };
       }
-    } else if (!existenceInObj2 && existenceInObj2) {
+    } else if (hasKeyInObject1) {
       comparing[key] = { object: object1[key], type: "deleted", option: "-" };
-    } else if (existenceInObj2 && !existenceInObj1) {
+    } else if (hasKeyInObject2) {
       comparing[key] = { object: object2[key], type: "added", option: "+" };
     }
   });
