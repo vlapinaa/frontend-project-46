@@ -1,6 +1,6 @@
 import { isObject } from "../helpers.js";
 
-const objectToStringIndented = (obj, startLevel = 1) => {
+const stylish = (obj, startLevel = 1) => {
   const space = " ";
   let result = "";
   const level = startLevel;
@@ -23,7 +23,7 @@ const objectToStringIndented = (obj, startLevel = 1) => {
     }
 
     const styledValue = isObject(value)
-      ? `{\n${objectToStringIndented(value, level + 1)}${indent}}`
+      ? `{\n${stylish(value, level + 1)}${indent}}`
       : value;
 
     const indentForKey = val.type !== "unchanged" ? indentDif : indent;
@@ -31,8 +31,8 @@ const objectToStringIndented = (obj, startLevel = 1) => {
     if (val.option !== undefined && val.type !== "changed") {
       result += `${indentForKey}${val.option} ${key}: ${styledValue}\n`;
     } else if (val.type === "changed") {
-      result += `${indentForKey}- ${key}: ${JSON.stringify(value1)}\n`;
-      result += `${indentForKey}+ ${key}: ${JSON.stringify(value2)}\n`;
+      result += `${indentForKey}- ${key}: ${value1}\n`;
+      result += `${indentForKey}+ ${key}: ${value2}\n`;
     } else {
       result += `${indentForKey}${key}: ${styledValue}\n`;
     }
@@ -41,4 +41,4 @@ const objectToStringIndented = (obj, startLevel = 1) => {
   return result;
 };
 
-export default (object) => `{\n${objectToStringIndented(object)}\n}`;
+export default (object) => `{\n${stylish(object)}\n}`;
