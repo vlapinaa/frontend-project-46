@@ -10,7 +10,7 @@ const plain = (obj) => {
     const parameters = flatObject[path];
 
     const defineValue = (type) => {
-      const typeValue = typeof type === "string" ? `"${type}"` : type;
+      const typeValue = typeof type === "string" ? `'${type}'` : type;
       let resultValue = typeValue;
       if (isObject(type)) {
         resultValue = "[complex value]";

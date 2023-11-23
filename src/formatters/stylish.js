@@ -54,4 +54,4 @@ const stylish = (obj, startLevel = 1) => {
   return result;
 };
 
-export default (object) => `{\n${stylish(object)}\n}`;
+export default (object) => `{\n${stylish(object)}}\n`;

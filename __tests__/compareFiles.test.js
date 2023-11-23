@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const getFixturePath = (filename) =>
-  path.join(__dirname, "..", "__fixtures__", filename);
+  path.join(__dirname, "..", "__fixtures2__", filename);
 const readFile = (filename) => readFileSync(getFixturePath(filename), "utf-8");
 
 const file1Read = readFile("file1.json");
@@ -19,11 +19,11 @@ const file1 = JSON.parse(file1Read);
 const file2Read = readFile("file2.json");
 const file2 = JSON.parse(file2Read);
 const compareJSON = compareObjects(file1, file2);
-const expectStylish = readFile("resultStylish.txt");
-const expectPlain = readFile("resultPlain.txt");
+const expectStylish = readFile("result_stylish.txt");
+const expectPlain = readFile("result_plain.txt");
 
-const file1ReadYaml1 = yaml.load(readFile("filepath1.yml"));
-const file2ReadYaml2 = yaml.load(readFile("filepath2.yml"));
+const file1ReadYaml1 = yaml.load(readFile("file1.yml"));
+const file2ReadYaml2 = yaml.load(readFile("file2.yml"));
 const compareYML = compareObjects(file1ReadYaml1, file2ReadYaml2);
 
 test.each([
