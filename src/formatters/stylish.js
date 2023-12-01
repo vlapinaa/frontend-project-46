@@ -14,7 +14,7 @@ const createStylishFormat = (arr, startLevel = 1) => {
     if (obj.type === 'object') {
       return `${result}${indentForKey}${key}: {\n${createStylishFormat(
         obj.value,
-        level + 1
+        level + 1,
       )}${indent}}\n`;
     }
     if (obj.type === 'deleted') {

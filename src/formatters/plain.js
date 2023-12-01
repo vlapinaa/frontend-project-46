@@ -17,12 +17,12 @@ const createPlainFormat = (array) => {
 
       case 'added':
         return `Property '${path}' was added with value: ${defineValue(
-          object.value
+          object.value,
         )}`;
 
       case 'changed':
         return `Property '${path}' was updated. From ${defineValue(
-          object.valueFrom
+          object.valueFrom,
         )} to ${defineValue(object.valueTo)}`;
       default:
         return '';
@@ -36,10 +36,10 @@ const createPlainFormat = (array) => {
           ...acc,
           ...createPath(
             objectChild,
-            relativePath ? `${relativePath}.${object.key}` : object.key
+            relativePath ? `${relativePath}.${object.key}` : object.key,
           ),
         ],
-        []
+        [],
       );
     }
 

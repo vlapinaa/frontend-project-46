@@ -14,7 +14,7 @@ export const stringifyObject = (object, level) => {
     if (isObject(object[key])) {
       return `${result}${indent}${key}: {\n${stringifyObject(
         object[key],
-        level + 1
+        level + 1,
       )}${indent}}\n`;
     }
 
