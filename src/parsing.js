@@ -1,7 +1,6 @@
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
 import yaml from 'js-yaml';
-import { Error } from 'node:console';
 
 export const createAbsolutePath = (filepath) => {
   return path.resolve(process.cwd(), filepath);
@@ -15,5 +14,5 @@ export const parseFile = (filepath) => {
   if (path.extname(filepath) === '.json') {
     return JSON.parse(file);
   }
-  return new Error(['Error format']);
+  return 'error format';
 };
