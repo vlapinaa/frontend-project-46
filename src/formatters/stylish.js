@@ -1,57 +1,53 @@
 import { isObject, stringifyObject } from '../helpers.js';
 
-const stylish = (obj, startLevel = 1) => {
+const createStylishFormat = (arr, startLevel = 1) => {
   const space = ' ';
-  let result = '';
   const level = startLevel;
   const indent = space.repeat(level * 4);
   const indentDif = space.repeat(level * 4 - 2);
 
-  Object.keys(obj).map((key) => {
-    const val = obj[key];
-    let value;
-    let value1;
-    let value2;
+  return arr.reduce((result, obj) => {
+    const { key } = obj;
+    const type = obj.type !== 'unchanged' && obj.type !== 'object';
+    const indentForKey = type ? indentDif : indent;
 
-    if (val.type !== 'changed' && val.object !== undefined) {
-      value = val.object;
-    } else if (val.type === 'changed') {
-      value1 = val.objectFrom;
-      value2 = val.objectTo;
-    } else {
-      value = obj[key];
+    if (obj.type === 'object') {
+      return `${result}${indentForKey}${key}: {\n${createStylishFormat(
+        obj.value,
+        level + 1
+      )}${indent}}\n`;
     }
-    let styledValue;
-
-    if (isObject(value)) {
-      if (val.option !== undefined) {
-        styledValue = `{\n${stylish(value, level + 1.5)}${indent}}`;
-      } else if (Number.isInteger(level)) {
-        styledValue = `{\n${stylish(value, level + 1)}${indent}}`;
-      } else {
-        styledValue = `{\n${stylish(value, level + 1)}${indentDif}}`;
-      }
-    } else {
-      styledValue = value;
-    }
-
-    const indentForKey = val.type !== 'unchanged' ? indentDif : indent;
-
-    if (val.option !== undefined && val.type !== 'changed') {
-      result += `${indentForKey}${val.option} ${key}: ${styledValue}\n`;
-    } else if (val.type === 'changed') {
-      result += `${indentForKey}- ${key}: ${
-        isObject(value1) ? stringifyObject(value1, level) : value1
+    if (obj.type === 'deleted') {
+      return `${result}${indentForKey}- ${key}: ${
+        isObject(obj.value)
+          ? `{\n${stringifyObject(obj.value, level + 1)}${indentForKey}  }`
+          : obj.value
       }\n`;
-      result += `${indentForKey}+ ${key}: ${
-        isObject(value2) ? stringifyObject(value2, level) : value2
-      }\n`;
-    } else {
-      result += `${indentForKey}${key}: ${styledValue}\n`;
     }
+    if (obj.type === 'added') {
+      return `${result}${indentForKey}+ ${key}: ${
+        isObject(obj.value)
+          ? `{\n${stringifyObject(obj.value, level + 1)}${indentForKey}  }`
+          : obj.value
+      }\n`;
+    }
+    if (obj.type === 'changed') {
+      return `${result}${indentForKey}- ${key}: ${
+        isObject(obj.valueFrom)
+          ? `{\n${stringifyObject(obj.valueFrom, level + 1)}${indentForKey}  }`
+          : obj.valueFrom
+      }\n${indentForKey}+ ${key}: ${
+        isObject(obj.valueTo)
+          ? `{\n${stringifyObject(obj.valueTo, level + 1)}${indentForKey}  }`
+          : obj.valueTo
+      }\n`;
+    }
+    if (obj.type === 'unchanged') {
+      return `${result}${indentForKey}${key}: ${obj.value}\n`;
+    }
+
     return result;
-  });
-  return result;
+  }, '');
 };
 
-export default (object) => `{\n${stylish(object)}}`;
+export default (object) => `{\n${createStylishFormat(object)}}`;

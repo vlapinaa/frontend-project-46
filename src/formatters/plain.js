@@ -1,46 +1,56 @@
-import { isObject, createFlatObject } from '../helpers.js';
+import { isObject } from '../helpers.js';
 
-const plain = (obj) => {
-  const flatObject = createFlatObject(obj, {});
-  const keys = Object.keys(flatObject);
-  let result = '';
-
-  keys.forEach((path) => {
-    let action = '';
-    const parameters = flatObject[path];
+const createPlainFormat = (array) => {
+  const createLine = (object, relativePath = '') => {
+    const path = relativePath ? `${relativePath}.${object.key}` : object.key;
 
     const defineValue = (type) => {
-      const typeValue = typeof type === 'string' ? `'${type}'` : type;
-      let resultValue = typeValue;
       if (isObject(type)) {
-        resultValue = '[complex value]';
+        return '[complex value]';
       }
-      return resultValue;
+      return typeof type === 'string' ? `'${type}'` : type;
     };
 
-    switch (parameters.type) {
+    switch (object.type) {
       case 'deleted':
-        action = 'removed';
-        break;
+        return `Property '${path}' was removed`;
+
       case 'added':
-        action = `added with value: ${defineValue(parameters.object)}`;
-        break;
+        return `Property '${path}' was added with value: ${defineValue(
+          object.value
+        )}`;
+
       case 'changed':
-        action = `updated. From ${defineValue(
-          parameters.objectFrom
-        )} to ${defineValue(parameters.objectTo)}`;
-        break;
+        return `Property '${path}' was updated. From ${defineValue(
+          object.valueFrom
+        )} to ${defineValue(object.valueTo)}`;
       default:
-        return;
+        return '';
+    }
+  };
+
+  const createPath = (object, relativePath = '') => {
+    if (object.type === 'object') {
+      return object.value.reduce((acc, objectChild) => {
+        return [
+          ...acc,
+          ...createPath(
+            objectChild,
+            relativePath ? `${relativePath}.${object.key}` : object.key
+          ),
+        ];
+      }, []);
     }
 
-    if (keys.indexOf(path) === keys.length - 2) {
-      result += `Property '${path}' was ${action}`;
-    } else {
-      result += `Property '${path}' was ${action}\n`;
-    }
-  });
-  return result;
+    const line = createLine(object, relativePath);
+    return line.length === 0 ? [] : [line];
+  };
+
+  return array
+    .reduce((result, object) => {
+      return [...result, ...createPath(object, '')];
+    }, [])
+    .join(`\n`);
 };
 
-export default plain;
+export default createPlainFormat;

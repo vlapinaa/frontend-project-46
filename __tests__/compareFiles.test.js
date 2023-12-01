@@ -29,13 +29,13 @@ const compareYML = compareObjects(file1ReadYaml1, file2ReadYaml2);
 test.each([
   { file: plain(compareJSON), expected: expectPlain },
   { file: plain(compareYML), expected: expectPlain },
-])('test plain formatter', ({ file, expected }) => {
+])('plain formatter', ({ file, expected }) => {
   expect(file).toBe(expected);
 });
 
 test.each([
   { file: stylish(compareJSON), expected: expectStylish },
   { file: stylish(compareYML), expected: expectStylish },
-])('test stylish formatter', ({ file, expected }) => {
+])('stylish formatter', ({ file, expected }) => {
   expect(file).toBe(expected);
 });
