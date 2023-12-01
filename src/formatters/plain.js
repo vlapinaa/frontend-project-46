@@ -31,15 +31,16 @@ const createPlainFormat = (array) => {
 
   const createPath = (object, relativePath = '') => {
     if (object.type === 'object') {
-      return object.value.reduce((acc, objectChild) => {
-        return [
+      return object.value.reduce(
+        (acc, objectChild) => [
           ...acc,
           ...createPath(
             objectChild,
             relativePath ? `${relativePath}.${object.key}` : object.key
           ),
-        ];
-      }, []);
+        ],
+        []
+      );
     }
 
     const line = createLine(object, relativePath);
@@ -47,10 +48,8 @@ const createPlainFormat = (array) => {
   };
 
   return array
-    .reduce((result, object) => {
-      return [...result, ...createPath(object, '')];
-    }, [])
-    .join(`\n`);
+    .reduce((result, object) => [...result, ...createPath(object, '')], [])
+    .join('\n');
 };
 
 export default createPlainFormat;
