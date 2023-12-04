@@ -32,6 +32,7 @@
         "fp/no-nil": "off",
         "fp/no-unused-expression": "off",
         "fp/no-throw": "off",
-        "fp/no-mutating-methods": "error"
+        "fp/no-mutating-methods": "error",
+        "object-curly-newline": 2
     }
 }

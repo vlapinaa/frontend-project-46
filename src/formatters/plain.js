@@ -8,8 +8,8 @@ const defineValue = (value) => {
 };
 
 const createPlainFormat = (array) => {
-  const createStringArray = (arr, relativePath = '') => {
-    return arr.flatMap((obj) => {
+  const createStringArray = (arr, relativePath = '') =>
+    arr.flatMap((obj) => {
       const path = relativePath ? `${relativePath}.${obj.key}` : obj.key;
 
       switch (obj.type) {
@@ -32,9 +32,8 @@ const createPlainFormat = (array) => {
           throw new Error(`Unknow type: '${obj.type}'!`);
       }
     });
-  };
 
-  return createStringArray(array).join(`\n`);
+  return createStringArray(array).join('\n');
 };
 
 export default createPlainFormat;

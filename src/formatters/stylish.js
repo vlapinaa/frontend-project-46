@@ -8,8 +8,8 @@ const calculateIndent = (level, type) => {
   return indentForKey;
 };
 
-const createStylishFormat = (arr, startLevel = 1) => {
-  return arr.map((obj) => {
+const createStylishFormat = (arr, startLevel = 1) =>
+  arr.map((obj) => {
     const { key } = obj;
     const indent = calculateIndent(startLevel, obj.type);
     const level = startLevel;
@@ -34,6 +34,5 @@ const createStylishFormat = (arr, startLevel = 1) => {
         throw new Error(`Unknow type: '${obj.type}'!`);
     }
   });
-};
 
 export default (object) => `{\n${createStylishFormat(object).join('')}}`;

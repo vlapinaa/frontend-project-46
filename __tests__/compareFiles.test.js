@@ -14,8 +14,20 @@ const expectStylish = readFile('resultStylish.txt');
 const expectPlain = readFile('resultPlain.txt');
 
 test.each([
-  { filepath1: '__fixtures__/file1.json', filepath2: '__fixtures__/file2.yml', formatter: 'plain', expected: expectPlain },
-  { filepath1: '__fixtures__/file1.json', filepath2: '__fixtures__/file2.json', formatter: 'stylish', expected: expectStylish },
-])('function testing calculateDifference', ({ filepath1, filepath2, formatter, expected }) => {
+  {
+    filepath1: '__fixtures__/file1.json',
+    filepath2: '__fixtures__/file2.yml',
+    formatter: 'plain',
+    expected: expectPlain,
+  },
+  {
+    filepath1: '__fixtures__/file1.json',
+    filepath2: '__fixtures__/file2.json',
+    formatter: 'stylish',
+    expected: expectStylish,
+  },
+])('function testing calculateDifference', ({
+ filepath1, filepath2, formatter, expected 
+}) => {
   expect(calculateDifference(filepath1, filepath2, formatter)).toBe(expected);
 });
