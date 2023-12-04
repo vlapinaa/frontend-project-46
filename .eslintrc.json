@@ -33,6 +33,7 @@
         "fp/no-unused-expression": "off",
         "fp/no-throw": "off",
         "fp/no-mutating-methods": "error",
-        "object-curly-newline": 2
+        "object-curly-newline": 2,
+        "implicit-arrow-linebreak": 1
     }
 }
