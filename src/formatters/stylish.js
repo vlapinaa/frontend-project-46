@@ -1,37 +1,37 @@
-import { stringifyObject } from '../helpers.js';
+import { stringifyObject } from "../helpers.js";
 
 const calculateIndent = (level, type) => {
-  const space = ' ';
+  const space = " ";
   const indent = space.repeat(level * 4);
   const indentDif = space.repeat(level * 4 - 2);
-  const indentForKey = type !== 'unchanged' && type !== 'nested' ? indentDif : indent;
+  const indentForKey = type !== "unchanged" && type !== "nested" ? indentDif : indent;
   return indentForKey;
 };
 
 const createStylishFormat = (arr, startLevel = 1) => arr.map((obj) => {
-    const { key } = obj;
-    const indent = calculateIndent(startLevel, obj.type);
-    const level = startLevel;
+  const { key } = obj;
+  const indent = calculateIndent(startLevel, obj.type);
+  const level = startLevel;
 
-    switch (obj.type) {
-      case 'nested':
-        return `${indent}${key}: {\n${createStylishFormat(obj.children, level + 1).join('')}${indent}}\n`;
+  switch (obj.type) {
+    case "nested":
+      return `${indent}${key}: {\n${createStylishFormat(obj.children, level + 1).join("")}${indent}}\n`;
 
-      case 'deleted':
-        return `${indent}- ${key}: ${stringifyObject(obj.value, level + 1)}`;
+    case "deleted":
+      return `${indent}- ${key}: ${stringifyObject(obj.value, level + 1)}`;
 
-      case 'added':
-        return `${indent}+ ${key}: ${stringifyObject(obj.value, level + 1)}`;
+    case "added":
+      return `${indent}+ ${key}: ${stringifyObject(obj.value, level + 1)}`;
 
-      case 'changed':
-        return `${indent}- ${key}: ${stringifyObject(obj.value1, level + 1)}${indent}+ ${key}: ${stringifyObject(obj.value2, level + 1)}`;
+    case "changed":
+      return `${indent}- ${key}: ${stringifyObject(obj.value1, level + 1)}${indent}+ ${key}: ${stringifyObject(obj.value2, level + 1)}`;
 
-      case 'unchanged':
-        return `${indent}${key}: ${obj.value}\n`;
+    case "unchanged":
+      return `${indent}${key}: ${obj.value}\n`;
 
-      default:
-        throw new Error(`Unknow type: '${obj.type}'!`);
-    }
-  });
+    default:
+      throw new Error(`Unknow type: '${obj.type}'!`);
+  }
+});
 
-export default (object) => `{\n${createStylishFormat(object).join('')}}`;
+export default (object) => `{\n${createStylishFormat(object).join("")}}`;

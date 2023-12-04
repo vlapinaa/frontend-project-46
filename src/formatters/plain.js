@@ -8,7 +8,8 @@ const defineValue = (value) => {
 };
 
 const createPlainFormat = (array) => {
-  const createStringArray = (arr, relativePath = '') => arr.flatMap((obj) => {
+  const createStringArray = (arr, relativePath = '') =>
+    arr.flatMap((obj) => {
       const path = relativePath ? `${relativePath}.${obj.key}` : obj.key;
 
       switch (obj.type) {
