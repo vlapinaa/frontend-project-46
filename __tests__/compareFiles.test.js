@@ -27,7 +27,7 @@ test.each([
     expected: expectStylish,
   },
 ])('function testing calculateDifference', ({
- filepath1, filepath2, formatter, expected 
+  filepath1, filepath2, formatter, expected,
 }) => {
   expect(calculateDifference(filepath1, filepath2, formatter)).toBe(expected);
 });

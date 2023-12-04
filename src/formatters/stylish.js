@@ -8,8 +8,7 @@ const calculateIndent = (level, type) => {
   return indentForKey;
 };
 
-const createStylishFormat = (arr, startLevel = 1) =>
-  arr.map((obj) => {
+const createStylishFormat = (arr, startLevel = 1) => arr.map((obj) => {
     const { key } = obj;
     const indent = calculateIndent(startLevel, obj.type);
     const level = startLevel;
