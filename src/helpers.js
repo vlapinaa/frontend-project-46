@@ -5,19 +5,22 @@ export const isObject = (value) => {
   return false;
 };
 
-export const stringifyObject = (object, level) => {
-  const keys = Object.keys(object);
+export const stringifyObject = (value, level) => {
+  if (!isObject(value)) {
+    return `${value}\n`;
+  }
+
+  const keys = Object.keys(value);
   const space = ' ';
   const indent = space.repeat(level * 4);
 
-  return keys.reduce((result, key) => {
-    if (isObject(object[key])) {
-      return `${result}${indent}${key}: {\n${stringifyObject(
-        object[key],
-        level + 1,
-      )}${indent}}\n`;
+  const string = keys.reduce((result, key) => {
+    if (isObject(value[key])) {
+      return `${result}${indent}${key}: ${stringifyObject(value[key], level + 1)}`;
     }
 
-    return `${result}${indent}${key}: ${object[key]}\n`;
+    return `${result}${indent}${key}: ${value[key]}\n`;
   }, '');
+
+  return `{\n${string}${space.repeat((level - 1) * 4)}}\n`;
 };

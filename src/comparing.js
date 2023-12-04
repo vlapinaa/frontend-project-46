@@ -11,32 +11,29 @@ const compareObjects = (object1, object2) => {
     if (isObject(object1[key]) && isObject(object2[key])) {
       return {
         key,
-        value: compareObjects(object1[key], object2[key]),
-        type: 'object',
+        children: compareObjects(object1[key], object2[key]),
+        type: 'nested',
       };
     }
 
-    if (hasKeyInObject2 && hasKeyInObject1) {
-      if (object1[key] === object2[key]) {
-        return { key, value: object1[key], type: 'unchanged' };
-      }
-      return {
-        key,
-        valueFrom: object1[key],
-        valueTo: object2[key],
-        type: 'changed',
-      };
-    }
-
-    if (hasKeyInObject1) {
+    if (hasKeyInObject1 && !hasKeyInObject2) {
       return { key, value: object1[key], type: 'deleted' };
     }
 
-    if (hasKeyInObject2) {
+    if (hasKeyInObject2 && !hasKeyInObject1) {
       return { key, value: object2[key], type: 'added' };
     }
 
-    return {};
+    if (object1[key] === object2[key]) {
+      return { key, value: object1[key], type: 'unchanged' };
+    }
+
+    return {
+      key,
+      value1: object1[key],
+      value2: object2[key],
+      type: 'changed',
+    };
   });
 };
 
