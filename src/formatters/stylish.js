@@ -1,4 +1,4 @@
-import { stringifyObject } from '../helpers.js';
+import _ from 'lodash';
 
 const calculateIndent = (level, type) => {
   const space = ' ';
@@ -8,11 +8,29 @@ const calculateIndent = (level, type) => {
   return indentForKey;
 };
 
+const stringifyObject = (value, level) => {
+  if (!_.isObject(value)) {
+    return `${value}\n`;
+  }
+
+  const keys = Object.keys(value);
+  const space = ' ';
+  const indent = space.repeat(level * 4);
+
+  const string = keys.reduce((result, key) => {
+    if (_.isObject(value[key])) {
+      return `${result}${indent}${key}: ${stringifyObject(value[key], level + 1)}`;
+    }
+
+    return `${result}${indent}${key}: ${value[key]}\n`;
+  }, '');
+
+  return `{\n${string}${space.repeat((level - 1) * 4)}}\n`;
+};
 // prettier-ignore
-const createStylishFormat = (arr, startLevel = 1) => arr.map((obj) => {
+const createStylishFormat = (arr, level = 1) => arr.map((obj) => {
   const { key } = obj;
-  const indent = calculateIndent(startLevel, obj.type);
-  const level = startLevel;
+  const indent = calculateIndent(level, obj.type);
 
   switch (obj.type) {
     case 'nested':

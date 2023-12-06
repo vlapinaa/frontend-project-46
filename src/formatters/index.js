@@ -1,6 +1,5 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
-import formatToJson from './json.js';
 
 const selectFormatter = (type) => {
   switch (type) {
@@ -9,7 +8,7 @@ const selectFormatter = (type) => {
     case 'plain':
       return plain;
     case 'json':
-      return formatToJson;
+      return JSON.stringify;
     default:
       throw new Error('Wrong format');
   }

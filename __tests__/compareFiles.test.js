@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import calculateDifference from '../src/index.js';
+import compareObjects from '../src/comparing.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,16 +16,38 @@ const expectPlain = readFile('resultPlain.txt');
 
 test.each([
   {
-    filepath1: '__fixtures__/file1.json',
+    filepath1: '__fixtures__/file1.yml',
     filepath2: '__fixtures__/file2.yml',
     formatter: 'plain',
     expected: expectPlain,
+  },
+  {
+    filepath1: '__fixtures__/file1.yml',
+    filepath2: '__fixtures__/file2.yml',
+    formatter: 'stylish',
+    expected: expectStylish,
+  },
+  {
+    filepath1: '__fixtures__/file1.yml',
+    filepath2: '__fixtures__/file2.yml',
+    expected: expectStylish,
   },
   {
     filepath1: '__fixtures__/file1.json',
     filepath2: '__fixtures__/file2.json',
     formatter: 'stylish',
     expected: expectStylish,
+  },
+  {
+    filepath1: '__fixtures__/file1.json',
+    filepath2: '__fixtures__/file2.json',
+    expected: expectStylish,
+  },
+  {
+    filepath1: '__fixtures__/file1.json',
+    filepath2: '__fixtures__/file2.json',
+    formatter: 'plain',
+    expected: expectPlain,
   },
 ])('function testing calculateDifference', ({
   filepath1, filepath2, formatter, expected,

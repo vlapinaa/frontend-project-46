@@ -1,7 +1,7 @@
-import { isObject } from '../helpers.js';
+import _ from 'lodash';
 
 const defineValue = (value) => {
-  if (isObject(value)) {
+  if (_.isObject(value)) {
     return '[complex value]';
   }
   return typeof value === 'string' ? `'${value}'` : value;
