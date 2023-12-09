@@ -8,8 +8,8 @@ const defineValue = (value) => {
 };
 
 // prettier-ignore
-const createPlainFormat = (array) => {
-  const createStringArray = (arr, relativePath = '') => arr.flatMap((obj) => {
+const createPlainFormat = (comparing) => {
+  const createStringArray = (array, relativePath = '') => array.flatMap((obj) => {
     const path = relativePath ? `${relativePath}.${obj.key}` : obj.key;
 
     switch (obj.type) {
@@ -33,7 +33,7 @@ const createPlainFormat = (array) => {
     }
   });
 
-  return createStringArray(array).join('\n');
+  return createStringArray(comparing).join('\n');
 };
 
 export default createPlainFormat;

@@ -1,8 +1,4 @@
-import path from 'node:path';
-import { readFileSync } from 'node:fs';
 import yaml from 'js-yaml';
-
-const createAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 
 const parseFile = (content, extention) => {
   switch (extention) {
@@ -16,7 +12,4 @@ const parseFile = (content, extention) => {
   }
 };
 
-export default (filepath) => {
-  const content = readFileSync(createAbsolutePath(filepath), { encoding: 'utf8' });
-  return parseFile(content, path.extname(filepath));
-};
+export default parseFile;

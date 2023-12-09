@@ -13,38 +13,45 @@ const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 const expectStylish = readFile('resultStylish.txt');
 const expectPlain = readFile('resultPlain.txt');
 
+const filePathYml1 = getFixturePath('file1.yml');
+const filePathYml2 = getFixturePath('file2.yml');
+
+const filePathJson1 = getFixturePath('file1.yml');
+const filePathJson2 = getFixturePath('file2.yml');
+
+
 test.each([
   {
-    filepath1: '__fixtures__/file1.yml',
-    filepath2: '__fixtures__/file2.yml',
+    filepath1: filePathYml1,
+    filepath2: filePathYml2,
     formatter: 'plain',
     expected: expectPlain,
   },
   {
-    filepath1: '__fixtures__/file1.yml',
-    filepath2: '__fixtures__/file2.yml',
+    filepath1: filePathYml1,
+    filepath2: filePathYml2,
     formatter: 'stylish',
     expected: expectStylish,
   },
   {
-    filepath1: '__fixtures__/file1.yml',
-    filepath2: '__fixtures__/file2.yml',
+    filepath1: filePathYml1,
+    filepath2: filePathYml2,
     expected: expectStylish,
   },
   {
-    filepath1: '__fixtures__/file1.json',
-    filepath2: '__fixtures__/file2.json',
+    filepath1: filePathJson1,
+    filepath2: filePathJson2,
     formatter: 'stylish',
     expected: expectStylish,
   },
   {
-    filepath1: '__fixtures__/file1.json',
-    filepath2: '__fixtures__/file2.json',
+    filepath1: filePathJson1,
+    filepath2: filePathJson2,
     expected: expectStylish,
   },
   {
-    filepath1: '__fixtures__/file1.json',
-    filepath2: '__fixtures__/file2.json',
+    filepath1: filePathJson1,
+    filepath2: filePathJson2,
     formatter: 'plain',
     expected: expectPlain,
   },
