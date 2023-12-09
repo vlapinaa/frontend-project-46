@@ -19,7 +19,6 @@ const filePathYml2 = getFixturePath('file2.yml');
 const filePathJson1 = getFixturePath('file1.yml');
 const filePathJson2 = getFixturePath('file2.yml');
 
-
 test.each([
   {
     filepath1: filePathYml1,
