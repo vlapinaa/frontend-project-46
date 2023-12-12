@@ -1,4 +1,4 @@
-const calculateIndent = (level, type) => {
+const calculateIndent = (level) => {
   const space = ' ';
   return space.repeat(level * 4 - 2);
 };
@@ -8,10 +8,10 @@ const stringifyObject = (value, depth) => {
     return value;
   }
 
-  const space = ' ';
-  const indent = space.repeat(depth * 4);
-  const string = Object.keys(value).map((key) => { return `${indent}${key}: ${stringifyObject(value[key], depth + 1)}`; });
-  return ['{', ...string, `${space.repeat((depth - 1) * 4)}}`].join('\n');
+  const string = Object.keys(value).map((key) => {
+    return `${calculateIndent(depth)}  ${key}: ${stringifyObject(value[key], depth + 1)}`;
+  });
+  return ['{', ...string, `${calculateIndent(depth - 1)}  }`].join('\n');
 };
 // prettier-ignore
 const createStylishFormat = (arr, level = 1) => arr.map((obj) => {
