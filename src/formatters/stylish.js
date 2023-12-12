@@ -8,9 +8,7 @@ const stringifyObject = (value, depth) => {
     return value;
   }
 
-  const string = Object.keys(value).map((key) => {
-    return `${calculateIndent(depth)}  ${key}: ${stringifyObject(value[key], depth + 1)}`;
-  });
+  const string = Object.keys(value).map((key) => `${calculateIndent(depth)}  ${key}: ${stringifyObject(value[key], depth + 1)}`);
   return ['{', ...string, `${calculateIndent(depth - 1)}  }`].join('\n');
 };
 // prettier-ignore
